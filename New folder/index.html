@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 20th Birthday Amna🎉🖤</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #120a21;
+            --bg-light: #2c1654;
+            --pink-soft: #ffb6c1;
+            --purple-soft: #dda0dd;
+            --gold: #ffd700;
+            --text-main: #f8f8ff;
+            --card-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .script-font {
+            font-family: 'Dancing Script', cursive;
+            color: var(--pink-soft);
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease;
+        }
+        
+        #loading-text {
+            font-size: 2.5rem;
+            text-align: center;
+            animation: pulse 2s infinite;
+            padding: 20px;
+        }
+
+        .start-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            border: 2px solid var(--pink-soft);
+            background: transparent;
+            color: var(--pink-soft);
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .start-btn:hover {
+            background: var(--pink-soft);
+            color: var(--bg-dark);
+            box-shadow: 0 0 15px var(--pink-soft);
+        }
+
+        /* Cursor Hearts */
+        .cursor-heart {
+            position: absolute;
+            pointer-events: none;
+            color: var(--pink-soft);
+            font-size: 20px;
+            animation: floatUpHeart 1s forwards;
+            z-index: 1000;
+        }
+
+        /* Main Content wrapper */
+        #main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Audio Control */
+        #audio-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Landing */
+        #landing h1 {
+            font-size: 4rem;
+            text-shadow: 0 0 20px rgba(255, 182, 193, 0.5);
+            margin-bottom: 20px;
+        }
+        #landing p {
+            font-size: 1.2rem;
+            color: var(--purple-soft);
+            max-width: 600px;
+        }
+
+        /* Night Sky & AMNA Constellation */
+        #night-sky {
+            background: transparent;
+        }
+        .constellation {
+            position: relative;
+            width: 300px;
+            height: 150px;
+            margin-top: 50px;
+        }
+        .star {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white, 0 0 20px var(--pink-soft);
+            animation: twinkle 1.5s infinite alternate;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+        .constellation.visible .star {
+            opacity: 1;
+        }
+
+        /* Cake Section */
+        .cake-container {
+            position: relative;
+            width: 250px;
+            height: 200px;
+            margin: 100px auto 40px auto;
+            perspective: 1000px;
+        }
+        .cake-tier {
+            background: linear-gradient(to bottom, #ffc0cb, #ff69b4);
+            border-radius: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 1s ease;
+        }
+        .cake-top {
+            background: #fff;
+            width: 100%;
+            height: 30px;
+            border-radius: 50%;
+            position: absolute;
+            top: -15px;
+        }
+        .candle-container {
+            display: flex;
+            justify-content: space-around;
+            width: 150px;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .candle {
+            width: 10px;
+            height: 40px;
+            background: repeating-linear-gradient(45deg, white, white 5px, var(--pink-soft) 5px, var(--pink-soft) 10px);
+            position: relative;
+        }
+        .flame {
+            width: 14px;
+            height: 20px;
+            background: var(--gold);
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -22px;
+            left: -2px;
+            box-shadow: 0 0 15px var(--gold);
+            animation: flicker 0.5s infinite alternate;
+            cursor: pointer;
+        }
+        .cut-btn {
+            display: none;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: var(--pink-soft);
+            border: none;
+            border-radius: 20px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .cake-cut-left { transform: translateX(-30px) rotateY(-20deg); }
+        .cake-cut-right { transform: translateX(30px) rotateY(20deg); }
+
+        /* Timer */
+        .timer-box {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .time-unit {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 80px;
+            border: 1px solid rgba(255,182,193,0.3);
+        }
+        .time-unit span {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--pink-soft);
+        }
+
+        /* Letter */
+        .letter-card {
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 600px;
+            border-left: 4px solid var(--pink-soft);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* Reasons */
+        .reasons-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            max-width: 800px;
+            margin-top: 30px;
+        }
+        .reason-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            width: 150px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+            border: 1px solid rgba(221,160,221,0.3);
+        }
+        .reason-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255,182,193,0.2);
+            box-shadow: 0 10px 20px rgba(255,182,193,0.2);
+        }
+
+        /* Balloons */
+        #balloons { position: relative; overflow: hidden; }
+        .balloon-area {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            margin-top: 20px;
+        }
+        .balloon {
+            width: 50px;
+            height: 60px;
+            background: var(--purple-soft);
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            position: absolute;
+            bottom: -60px;
+            cursor: pointer;
+            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2);
+        }
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 40px;
+            background: rgba(255,255,255,0.5);
+        }
+        #balloon-msg {
+            margin-top: 20px;
+            height: 30px;
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
+
+        /* Quiz */
+        .quiz-container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+        }
+        .quiz-option {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--purple-soft);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .quiz-option:hover { background: var(--purple-soft); }
+
+        /* General Interactive Elements */
+        .magic-btn, .action-btn {
+            background: linear-gradient(45deg, var(--pink-soft), var(--purple-soft));
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            color: #120a21;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.4);
+            transition: transform 0.3s;
+            margin-top: 20px;
+        }
+        .magic-btn:hover, .action-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Puzzle & Secret Page */
+        .puzzle-input {
+            padding: 12px 20px;
+            border-radius: 20px;
+            border: 2px solid var(--pink-soft);
+            background: transparent;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            text-align: center;
+            margin-right: 10px;
+        }
+        .hidden-section { display: none; }
+
+        /* Animations */
+        @keyframes pulse { 0% { opacity: 0.6; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1.02); } 100% { opacity: 0.6; transform: scale(0.98); } }
+        @keyframes floatUpHeart { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-50px) scale(1.5); opacity: 0; } }
+        @keyframes twinkle { 0% { opacity: 0.3; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
+        @keyframes flicker { 0% { transform: rotate(-5deg); opacity: 0.8; } 100% { transform: rotate(5deg); opacity: 1; } }
+        @keyframes floatBalloon { 0% { bottom: -60px; transform: translateX(0); } 100% { bottom: 100%; transform: translateX(20px); } }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 5000;
+        }
+
+        /* Utilities */
+        .fade-in-section { opacity: 0; transform: translateY(30px); transition: opacity 1s ease, transform 1s ease; }
+        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 3rem !important; }
+            .timer-box { flex-wrap: wrap; }
+            .time-unit { min-width: 70px; padding: 10px; }
+            .letter-card { padding: 20px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="Anu.mp3" type="audio/mpeg">
+    </audio>
+    <div id="audio-controls" onclick="toggleMusic()">🎵 Play Music</div>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div id="loading-screen">
+        <h1 id="loading-text" class="script-font">Opening something special for Amna... ✨</h1>
+        <button class="start-btn" onclick="startExperience()">Click to Begin</button>
+    </div>
+
+    <div id="main-content">
+        
+        <section id="landing" class="fade-in-section">
+            <h1>Happy 20th Birthday, Amna 🎉🖤😘!</h1>
+            <p>The world got just luckier since the day you were born🤩🥰.</p>
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.7;">(Move your finger/mouse around the screen)</p>
+        </section>
+
+        <section id="timer" class="fade-in-section">
+            <h2 class="script-font" style="font-size: 2.5rem;">You have been loved for...</h2>
+            <div class="timer-box">
+                <div class="time-unit"><span id="t-years">20</span> Years</div>
+                <div class="time-unit"><span id="t-days">0</span> Days</div>
+                <div class="time-unit"><span id="t-hours">0</span> Hours</div>
+                <div class="time-unit"><span id="t-mins">0</span> Mins</div>
+                <div class="time-unit"><span id="t-secs">0</span> Secs</div>
+            </div>
+        </section>
+
+        <section id="night-sky" class="fade-in-section">
+            <h2 class="script-font" style="font-size: 2.5rem; margin-bottom: 20px;">Written in the stars...</h2>
+            <div class="constellation" id="constellation">
+                <div class="star" style="top: 100%; left: 0%;"></div>
+                <div class="star" style="top: 50%; left: 10%;"></div>
+                <div class="star" style="top: 0%; left: 20%;"></div>
+                <div class="star" style="top: 50%; left: 30%;"></div>
+                <div class="star" style="top: 100%; left: 40%;"></div>
+                <div class="star" style="top: 60%; left: 15%;"></div>
+                <div class="star" style="top: 60%; left: 25%;"></div>
+                
+                <div class="star" style="top: 100%; left: 50%;"></div>
+                <div class="star" style="top: 0%; left: 50%;"></div>
+                <div class="star" style="top: 50%; left: 60%;"></div>
+                <div class="star" style="top: 0%; left: 70%;"></div>
+                <div class="star" style="top: 100%; left: 70%;"></div>
+
+                <div class="star" style="top: 100%; left: 80%;"></div>
+                <div class="star" style="top: 0%; left: 80%;"></div>
+                <div class="star" style="top: 50%; left: 85%;"></div>
+                <div class="star" style="top: 100%; left: 90%;"></div>
+                <div class="star" style="top: 0%; left: 90%;"></div>
+
+                <div class="star" style="top: 100%; left: 100%;"></div>
+                <div class="star" style="top: 50%; left: 105%;"></div>
+                <div class="star" style="top: 0%; left: 110%;"></div>
+                <div class="star" style="top: 50%; left: 115%;"></div>
+                <div class="star" style="top: 100%; left: 120%;"></div>
+            </div>
+        </section>
+
+        <section id="cake-section" class="fade-in-section">
+            <h2 class="script-font" style="font-size: 2.5rem;" id="cake-text">Tap the flames to blow out your candles!</h2>
+            <div class="cake-container" id="birthday-cake">
+                <div class="cake-tier" id="cake-left" style="clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);">
+                    <div class="cake-top"></div>
+                </div>
+                <div class="cake-tier" id="cake-right" style="clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);">
+                    <div class="cake-top"></div>
+                </div>
+                
+                <div class="candle-container" id="candles">
+                    <div class="candle"><div class="flame" onclick="blowCandle(this)"></div></div>
+                    <div class="candle"><div class="flame" onclick="blowCandle(this)"></div></div>
+                    <div class="candle"><div class="flame" onclick="blowCandle(this)"></div></div>
+                </div>
+            </div>
+            <button class="cut-btn" id="cut-btn" onclick="cutCake()">Cut the Cake 🔪</button>
+        </section>
+
+        <section id="letter" class="fade-in-section">
+            <div class="letter-card">
+                <h3 style="font-size: 2rem; margin-bottom: 20px;">Dear Amna,</h3>
+                <p>Welcome to your 20s! I wanted to make something unique to celebrate you today. You have this incredibly beautiful heart 😣🖤 and a calm, kind personality that makes everyone around you feel at ease (including me of course). </p>
+                <br>
+                <p>You don't even have to try, but you make the world a better place just by being in it. I truly hope this 20th year brings you all the happiness, exciting adventures, and beautiful moments you so richly deserve🖤😍😘.</p>
+                <br>
+                <p class="script-font" style="font-size: 1.5rem; text-align: right;">- Someone who admires you</p>
+            </div>
+        </section>
+
+        <section id="reasons" class="fade-in-section">
+            <h2 class="script-font" style="font-size: 2.5rem;">A few reasons why you're amazing (I will try my best but you are amazing because you are Amna that's it).</h2>
+            <div class="reasons-grid">
+                <div class="reason-card">Your Kind and pure Heart</div>
+                <div class="reason-card">You are emotionally Mature</div>
+                <div class="reason-card">Always know the right thing to say.</div>
+                <div class="reason-card">Care deeply about people you love.</div>
+                <div class="reason-card">You know what you want.</div>
+                <div class="reason-card">Know how to control your emotions.</div>
+                <div class="reason-card">You are Supportive.</div>
+            </div>
+        </section>
+
+        <section id="balloons" class="fade-in-section">
+            <h2 class="script-font" style="font-size: 2.5rem;">Pop a balloon! 🎈</h2>
+            <div class="balloon-area" id="balloon-container">
+                </div>
+            <div id="balloon-msg"></div>
+        </section>
+
+        <section id="fortune" class="fade-in-section">
+            <h2 class="script-font" style="font-size: 2.5rem;">What does your 20th year hold?</h2>
+            <p>Click the magic crystal</p>
+            <div style="font-size: 5rem; cursor: pointer; margin: 20px;" onclick="tellFortune()">🔮</div>
+            <h3 id="fortune-text" style="min-height: 40px; color: var(--gold);"></h3>
+        </section>
+
+        <section id="quiz" class="fade-in-section">
+            <h2 class="script-font" style="font-size: 2.5rem; margin-bottom: 20px;">How well do you know yourself?</h2>
+            <div class="quiz-container">
+                <p id="quiz-q" style="font-size: 1.2rem; margin-bottom: 15px;">What is Amna's secret superpower?</p>
+                <button class="quiz-option" onclick="answerQuiz(true)">Emotionally Mature</button>
+                <button class="quiz-option" onclick="answerQuiz(false)">Flying</button>
+                <button class="quiz-option" onclick="answerQuiz(false)">Invisibility</button>
+                <p id="quiz-feedback" style="margin-top: 15px; color: var(--pink-soft); font-weight: bold;"></p>
+            </div>
+        </section>
+
+        
+
+        <section id="puzzle" class="fade-in-section">
+            <h2 class="script-font" style="font-size: 2.5rem;">Unlock the Secret Page</h2>
+            <p style="margin-bottom: 20px;">What month is your birthday? (Spell it out)</p>
+            <div>
+                <input type="text" id="puzzle-input" class="puzzle-input" placeholder="e.g. January">
+                <button class="action-btn" style="margin-top: 0;" onclick="checkPuzzle()">Unlock</button>
+            </div>
+            <p id="puzzle-error" style="color: red; margin-top: 10px; display: none;">Oops, try again!</p>
+        </section>
+
+        <section id="secret-page" class="hidden-section fade-in-section">
+            <div class="letter-card" style="border-color: var(--gold); text-align: center;">
+                <h2 class="script-font" style="font-size: 2.5rem; color: var(--gold);">You found the secret page! 🌟</h2>
+                <p style="margin-top: 20px;">I put this together hoping it would make you smile on your special day🤗❤🖤. Always remember how loved and appreciated you are.</p>
+                <p style="margin-top: 10px;">Happy 20th, Amna.</p>
+            </div>
+        </section>
+
+        <section id="final" class="fade-in-section">
+            <h1 style="font-size: 3rem;">Amna,I hope you smiled today😣🖤.</h1>
+            <p style="font-size: 1.2rem; margin-top: 10px;">You deserve the world😚😘.</p>
+            <button class="magic-btn" onclick="location.reload()">Relive the Magic ✨</button>
+        </section>
+
+    </div>
+
+    <script>
+        // --- Setup & Utilities ---
+        const mainContent = document.getElementById('main-content');
+        const loadingScreen = document.getElementById('loading-screen');
+        const audio = document.getElementById('bg-music');
+        let musicPlaying = false;
+
+        function startExperience() {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                setTimeout(() => mainContent.style.opacity = '1', 100);
+                
+                // Start music safely after user interaction
+                audio.volume = 0.4;
+                audio.play().then(() => {
+                    musicPlaying = true;
+                }).catch(e => console.log("Audio play prevented", e));
+            }, 1000);
+        }
+
+        function toggleMusic() {
+            const btn = document.getElementById('audio-controls');
+            if(musicPlaying) {
+                audio.pause();
+                btn.innerText = "🔇 Music Muted";
+            } else {
+                audio.play();
+                btn.innerText = "🎵 Play Music";
+            }
+            musicPlaying = !musicPlaying;
+        }
+
+        // --- Intersection Observer for Fade-ins ---
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Special trigger for constellation
+                    if(entry.target.id === 'night-sky') {
+                        document.getElementById('constellation').classList.add('visible');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-section').forEach(sec => observer.observe(sec));
+
+        // --- Cursor Hearts ---
+        document.addEventListener('mousemove', (e) => {
+            if(Math.random() > 0.85) { // Throttle
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.className = 'cursor-heart';
+                heart.style.left = e.pageX + 'px';
+                heart.style.top = e.pageY + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1000);
+            }
+        });
+
+    // --- Final Fixed Timer Logic ---
+const birthDate = new Date('March 10, 2006 00:00:00');
+let sessionSeconds = 1; // Starts at 00:00:01 every refresh
+
+setInterval(() => {
+    const now = new Date();
+    
+    // 1. Force Years to 20 (since it's her 20th birthday year)
+    let years = 20; 
+
+    // 2. Calculate Total Days accurately
+    const diffInMs = now - birthDate;
+    const totalDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    // 3. Session-based time (Starts from 00:00:01 and counts up)
+    let s_hours = Math.floor(sessionSeconds / 3600);
+    let s_mins = Math.floor((sessionSeconds % 3600) / 60);
+    let s_secs = sessionSeconds % 60;
+
+    // Update the HTML display
+    document.getElementById('t-years').innerText = years;
+    document.getElementById('t-days').innerText = totalDays;
+    
+    // Pad with zeros so it looks like 00:00:01
+    document.getElementById('t-hours').innerText = String(s_hours).padStart(2, '0');
+    document.getElementById('t-mins').innerText = String(s_mins).padStart(2, '0');
+    document.getElementById('t-secs').innerText = String(s_secs).padStart(2, '0');
+
+    sessionSeconds++; 
+}, 1000);
+        // --- Cake Logic ---
+        let flamesBlown = 0;
+        function blowCandle(flameElement) {
+            flameElement.style.display = 'none';
+            flamesBlown++;
+            if(flamesBlown === 3) {
+                document.getElementById('cake-text').innerText = "Make a wish, Amna! ✨";
+                fireConfetti();
+                document.getElementById('cut-btn').style.display = 'inline-block';
+            }
+        }
+
+        function cutCake() {
+            document.getElementById('cake-left').classList.add('cake-cut-left');
+            document.getElementById('cake-right').classList.add('cake-cut-right');
+            document.getElementById('cut-btn').innerText = "Yum! 🍰";
+            document.getElementById('cake-text').innerText = "Here's to a sweet year ahead!";
+            fireConfetti();
+        }
+
+        // --- Balloons Logic ---
+        const messages = [
+            "You have an amazing smile!",
+            "Someone secretly admires you.",
+            "Someone secretly admires you.",
+            "You deserve beautiful things.",
+            "Your kindness is your superpower."
+        ];
+        const balloonArea = document.getElementById('balloon-container');
+        
+        function spawnBalloon() {
+            const b = document.createElement('div');
+            b.className = 'balloon';
+            b.style.left = Math.random() * 80 + 10 + '%';
+            b.style.background = `hsl(${Math.random() * 360}, 70%, 70%)`;
+            b.style.animation = `floatBalloon ${Math.random() * 3 + 4}s linear infinite`;
+            
+            b.onclick = function() {
+                this.style.display = 'none';
+                document.getElementById('balloon-msg').innerText = messages[Math.floor(Math.random() * messages.length)];
+                fireConfetti(30); // small burst
+            };
+            
+            balloonArea.appendChild(b);
+            setTimeout(() => { if(b.parentNode) b.remove(); }, 7000);
+        }
+        setInterval(spawnBalloon, 1500);
+
+        // --- Fortune Teller ---
+        const fortunes = [
+            "A beautiful surprise is coming your way.",
+            "Great happiness is destined for you.",
+            "Someone special is thinking about you right now.",
+            "Someone special is thinking about you right now.",
+            "Great happiness is destined for you."
+        ];
+        function tellFortune() {
+            const text = document.getElementById('fortune-text');
+            text.innerText = "🔮 Consulting the stars...";
+            setTimeout(() => {
+                text.innerText = fortunes[Math.floor(Math.random() * fortunes.length)];
+            }, 1000);
+        }
+
+        // --- Quiz ---
+        function answerQuiz(isCorrect) {
+            const feedback = document.getElementById('quiz-feedback');
+            if(isCorrect) {
+                feedback.innerText = "Correct! It's so true. ❤️";
+                fireConfetti(50);
+            } else {
+                feedback.innerText = "Haha, nope! Try again.";
+            }
+        }
+
+        // --- Gift/Confession ---
+        function openGift() {
+            const icon = document.getElementById('gift-icon');
+            icon.style.transform = "scale(0) rotate(180deg)";
+            setTimeout(() => {
+                icon.style.display = 'none';
+                document.getElementById('gift-text').style.display = 'block';
+            }, 300);
+        }
+
+        // --- Puzzle ---
+        function checkPuzzle() {
+            const input = document.getElementById('puzzle-input').value.toLowerCase().trim();
+            const err = document.getElementById('puzzle-error');
+            if(input === 'march' || input === '03' || input === '3') {
+                err.style.display = 'none';
+                document.getElementById('puzzle').style.display = 'none';
+                const secret = document.getElementById('secret-page');
+                secret.style.display = 'flex';
+                setTimeout(() => secret.classList.add('is-visible'), 50);
+                fireConfetti(100);
+            } else {
+                err.style.display = 'block';
+            }
+        }
+
+        // --- Confetti System ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let particles = [];
+        
+        function fireConfetti(amount = 150) {
+            for(let i=0; i<amount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 6 + 2,
+                    dx: Math.random() * 4 - 2,
+                    dy: Math.random() * 5 + 2,
+                    color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+                    tilt: Math.random() * 10
+                });
+            }
+        }
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, index) => {
+                p.y += p.dy;
+                p.x += p.dx;
+                p.tilt += 0.1;
+                
+                ctx.beginPath();
+                ctx.lineWidth = p.r;
+                ctx.strokeStyle = p.color;
+                ctx.moveTo(p.x + p.tilt, p.y);
+                ctx.lineTo(p.x + p.tilt + p.r, p.y + p.tilt);
+                ctx.stroke();
+                
+                if(p.y > canvas.height) particles.splice(index, 1);
+            });
+            requestAnimationFrame(drawConfetti);
+        }
+        drawConfetti();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
